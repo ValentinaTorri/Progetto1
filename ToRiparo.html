@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Riparazioni</title>
+        <!--GOOGLE_FONTS-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Grandstander&display=swap" rel="stylesheet" />
+        <!--CSS-->
+        <link rel="stylesheet" href="./css/index.css" />
+    </head>
+
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-radius: 2px;
+        }
+
+        table {
+            border: 1px solid black;
+            width: 100%;
+        }
+    </style>
+
+    <body>
+        <header>
+            <h1>ToRiparo.srl</h1>
+        </header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#sez1">INSERISCI DATI</a>
+                </li>
+                <li>
+                    <a href="#sez2">CELLULARI IN RIPARAZIONE</a>
+                </li>
+                <li>
+                    <a href="#sez3">ELENCO FATTURE</a>
+                </li>
+                <li>
+                    <a href="#sez4">ARCHIVIO CELLULARI</a>
+                </li>
+            </ul>
+        </nav>
+        <section id="sez1">
+            <h3>Inserisci i dati del cliente</h3>
+            <div class="datiCliente">
+                <input id="nome" type="text" placeholder="Nome" />
+                <input id="cognome" type="text" placeholder="Cognome" />
+                <input id="telefono" type="number" placeholder="Telefono" />
+                <input id="indirizzo" type="text" placeholder="Indirizzo" />
+            </div>
+            <h3>Inserisci i dati del cellulare</h3>
+            <div class="datiCell">
+                <div class="riga">
+                    <input id="marca" type="text" placeholder="Marca" />
+                    <input id="anno_fabb" type="number" placeholder="Anno di Fabbricazione" />
+                </div>
+                <div class="riga">
+                    <textarea name="difetto" id="difetto" placeholder="Descrivi il malfunzionamento"></textarea>
+
+                    <input id="costo" type="number" placeholder="Costo" />
+                </div>
+                <div class="riga">
+                    <label for=""><b>Data di consegna:</b></label>
+                    <input id="consegna" type="date" />
+                </div>
+                <div class="riga">
+                    <button onclick="creaPreventivo()">Crea preventivo</button>
+                </div>
+            </div>
+            <div id="div_prev"></div>
+        </section>
+
+        <section id="sez2">
+            <h3>Cellulari in riparazione</h3>
+            <table cellpadding="0%" cellspacing="1px" id="cell_riparazione">
+                <tr>
+                    <th>USER ID</th>
+                    <th>NOME</th>
+                    <th>COGNOME</th>
+                    <th>TELEFONO</th>
+                    <th>INDIRIZZO</th>
+                    <th>MARCA</th>
+                    <th>ANNO</th>
+                    <th>DIFETTO</th>
+                    <th>STATO</th>
+                    <th>METODO DI PAGAMENTO</th>
+                    <th>PREZZO</th>
+                </tr>
+            </table>
+        </section>
+
+        <section id="sez3">
+            <h3>Elenco fatture</h3>
+            <select name="" id="fatture"></select>
+            <a id="mostraFattura" target="_blank" onclick="showFattura()">Mostra fattura</a>
+
+            <div>
+                <p id="fattura"></p>
+            </div>
+        </section>
+
+        <section id="sez4">
+            <h3>Archivio cellulari</h3>
+            <table id="tutti" cellpadding="0%" cellspacing="1px">
+                <tr>
+                    <th>USER ID</th>
+                    <th>NOME</th>
+                    <th>COGNOME</th>
+                    <th>TELEFONO</th>
+                    <th>INDIRIZZO</th>
+                    <th>MARCA</th>
+                    <th>ANNO</th>
+                    <th>DIFETTO</th>
+                    <th>STATO</th>
+                    <th>PREZZO</th>
+                </tr>
+            </table>
+        </section>
+        <footer>
+            <h4>ToRiparo s.r.l.</h4>
+            <div class="piedipag">
+                <div class="blocco">
+                    <p>P.IVA 2524514253664</p>
+                    <p>Sede: Viale Marconi, 44, RM</p>
+                </div>
+                <div class="blocco">
+                    <p>Tel.: 06989283444</p>
+                    <p>E-mail: toriparo@libero.it</p>
+                </div>
+            </div>
+            <p class="copyright">&copy Realizzato da Michele, Irene, Valentina</p>
+        </footer>
+    </body>
+
+    <script>
+        var archivio = [];
+        var nuovaFattura = "";
+        var pagamentoScelto = "";
+        var contatoreUser = 0;
+        var contatore_fattura = 1;
+        var nuovoCliente = "";
+        var nuovoCellulare = "";
+        var counter = 1;
+        var idParametro = "";
+        var FatturaSelezionata = "";
+
+        class cliente {
+            constructor(nome, cognome, numero, indirizzo) {
+                this.userId = contatoreUser;
+                this.nome = nome;
+                this.cognome = cognome;
+                this.numero = numero;
+                this.indirizzo = indirizzo;
+            }
+        }
+
+        class cellulare {
+            constructor(marca, anno, difetto, stato) {
+                this.marca = marca;
+                this.anno = anno;
+                this.difetto = difetto;
+                this.stato = stato;
+            }
+        }
+
+        class fattura {
+            constructor(pagamento, costo, data, destinatario, descrizione_servizio) {
+                this.pIva = 2524514253664;
+                this.nome_societa = "ToRiparo.srl";
+                this.pagamento = pagamento;
+                this.costo = costo;
+                this.iva = 22;
+                this.prezzo_finale = this.costo * (1 + this.iva / 100);
+                this.numero_fattura = contatore_fattura;
+                this.data = data;
+                this.destinatario = destinatario;
+                this.descrizione_servizio = descrizione_servizio;
+            }
+        }
+
+        function creaPreventivo() {
+            nuovoCliente = new cliente(leggiValore("nome"), leggiValore("cognome"), leggiValore("telefono"), leggiValore("indirizzo"));
+            nuovoCellulare = new cellulare(leggiValore("marca"), leggiValore("anno_fabb"), leggiValore("difetto"), 0);
+            contatoreUser++;
+            let mostra = false;
+
+            document.getElementById("div_prev").innerHTML = "";
+
+            let paragrafo = document.createElement("p");
+
+            let testoPreventivo = `Il/la signor/a ${nuovoCliente.nome} ${nuovoCliente.cognome}, abitante in ${nuovoCliente.indirizzo}, 
+            con numero di telefono ${nuovoCliente.numero}, 
+            ha lasciato il cellulare con marca: ${nuovoCellulare.marca}, 
+            fabbricato nell’anno ${nuovoCellulare.anno}, 
+            con il seguente difetto: ${nuovoCellulare.difetto}. 
+            Il costo del preventivo è ${leggiValore("costo")}. 
+            La data di riconsegna ipotetica è ${leggiValore("consegna")}`;
+
+            paragrafo.innerText = testoPreventivo;
+            document.getElementById("div_prev").appendChild(paragrafo);
+
+            creaBottone("Accetta");
+            creaBottone("Rifiuta");
+
+            document.getElementById("Accetta").addEventListener("click", preventivoAccettato);
+            document.getElementById("Rifiuta").addEventListener("click", preventivoRifiutato);
+        }
+
+        function creaBottone(testoBottone) {
+            let bottone = document.createElement("button");
+            bottone.innerText = testoBottone;
+            bottone.id = testoBottone;
+            document.getElementById("div_prev").appendChild(bottone);
+        }
+
+        function leggiValore(ID) {
+            return document.getElementById(ID).value;
+        }
+
+        function preventivoAccettato() {
+            let item = [nuovoCliente, nuovoCellulare];
+            nuovoCellulare.stato = 1;
+            archivio.push(item);
+            document.getElementById("div_prev").innerHTML = "";
+            popolaTabella(archivio[archivio.length - 1][0], archivio[archivio.length - 1][1]);
+            mostraTutti(archivio[archivio.length - 1][0], archivio[archivio.length - 1][1]);
+        }
+
+        function preventivoRifiutato() {
+            alert("Preventivo rifiutato");
+            document.getElementById("div_prev").innerHTML = "";
+        }
+
+        function popolaTabella(clienti, cellulari) {
+            let nuovaRiga = document.createElement("tr");
+            document.getElementById("cell_riparazione").appendChild(nuovaRiga);
+            counter++;
+
+            for (let chiave in clienti) {
+                let nuovaCella = document.createElement("td");
+                document.getElementById("cell_riparazione").appendChild(nuovaCella);
+                nuovaCella.innerText = clienti[chiave];
+            }
+
+            for (let chiave in cellulari) {
+                let nuovaCella = document.createElement("td");
+                document.getElementById("cell_riparazione").appendChild(nuovaCella);
+                nuovaCella.innerText = cellulari[chiave];
+            }
+
+            let nuovaCella = document.createElement("td");
+            nuovaCella.id = "tipoPagamento" + counter;
+            document.getElementById("cell_riparazione").appendChild(nuovaCella);
+
+            aggiungiRadio("Contanti", nuovaCella.id, clienti.userId);
+            aggiungiRadio("Carta", nuovaCella.id, clienti.userId);
+            aggiungiRadio("Bonifico", nuovaCella.id, clienti.userId);
+
+            let nuovaCellaCosto = document.createElement("td");
+            document.getElementById("cell_riparazione").appendChild(nuovaCellaCosto);
+            nuovaCellaCosto.innerText = leggiValore("costo");
+
+            let nuovaBottone = document.createElement("a");
+            nuovaBottone.id = "EffettuaFattura!" + clienti.userId;
+            nuovaBottone.innerText = "Richiedi Fattura";
+            //nuovaBottone.setAttribute("value", clienti.userId);
+            nuovaBottone.target = "_blank";
+            nuovaBottone.style.marginLeft="10%";
+            document.getElementById("cell_riparazione").appendChild(nuovaBottone);
+            document.getElementById(nuovaBottone.id).addEventListener("click", visualizzaFattura);
+        }
+
+        function cercaFattura(userID) {
+            if (nuovaFattura.destinatario.userId == userID) {
+                return nuovaFattura;
+            }
+        }
+
+        function visualizzaFattura() {
+            let index = parseInt(this.id.split("!")[1]);
+            archivio[index][1].stato = 2;
+            creaFattura(index);
+            this.href = "./fattura.html?nomefattura=FatturaN." + cercaFattura(index).numero_fattura;
+            document.getElementById("cell_riparazione").innerText = "";
+            intestazioneTabella("cell_riparazione", ["USER ID", "NOME", "COGNOME", "TELEFONO", "INDIRIZZO", "MARCA", "ANNO", "DIFETTO", "STATO", "PAGAMENTO", "COSTO"]);
+            for (let i in archivio) {
+                if (archivio[i][1].stato == 1) {
+                    popolaTabella(archivio[i][0], archivio[i][1]);
+                }
+            }
+            counter = 1;
+            correggiStato(archivio[index][0].userId);
+        }
+
+        function mostraTutti(clienti, cellulari) {
+            let nuovaRiga = document.createElement("tr");
+            document.getElementById("tutti").appendChild(nuovaRiga);
+            for (let chiave in clienti) {
+                let nuovaCella = document.createElement("td");
+                document.getElementById("tutti").appendChild(nuovaCella);
+                nuovaCella.innerText = clienti[chiave];
+            }
+            for (let chiave in cellulari) {
+                if (cellulari[chiave] != "stato") {
+                    let nuovaCella = document.createElement("td");
+                    document.getElementById("tutti").appendChild(nuovaCella);
+                    nuovaCella.innerText = cellulari[chiave];
+                }
+            }
+
+            let nuovaCellaCosto = document.createElement("td");
+            document.getElementById("tutti").appendChild(nuovaCellaCosto);
+            nuovaCellaCosto.innerText = leggiValore("costo");
+        }
+
+        function correggiStato(idPremuto) {
+            for (let i in archivio) {
+                if (archivio[i][0].userId == idPremuto) {
+                    archivio[i][1].stato = 2;
+                }
+            }
+            document.getElementById("tutti").innerText = "";
+            intestazioneTabella("tutti", ["USER ID", "NOME", "COGNOME", "TELEFONO", "INDIRIZZO", "MARCA", "ANNO", "DIFETTO", "STATO", "COSTO"]);
+            for (let i in archivio) {
+                mostraTutti(archivio[i][0], archivio[i][1]);
+            }
+        }
+
+        function aggiungiRadio(metodo, idCella, idNome) {
+            let nuovoLabel = document.createElement("label");
+            nuovoLabel.innerText = metodo;
+            let nuovoRadio = document.createElement("input");
+            nuovoRadio.type = "radio";
+            nuovoRadio.name = "pagamento" + idNome;
+            nuovoRadio.value = metodo;
+            document.getElementById(idCella).appendChild(nuovoLabel);
+            document.getElementById(idCella).appendChild(nuovoRadio);
+        }
+
+        function intestazioneTabella(idTabella, titoli) {
+            let intestazione = document.createElement("tr");
+            document.getElementById(idTabella).appendChild(intestazione);
+
+            for (let i = 0; i < titoli.length; i++) {
+                let colonna = document.createElement("th");
+                document.getElementById(idTabella).appendChild(colonna);
+                colonna.innerText = titoli[i];
+            }
+        }
+
+        function creaFattura(index) {
+            let opzioni = document.getElementsByName("pagamento" + index);
+            for (var i of opzioni) {
+                if (i.checked) {
+                    pagamentoScelto = i.value;
+                }
+            }
+            nuovaFattura = new fattura(pagamentoScelto, leggiValore("costo"), leggiValore("consegna"), archivio[index][0], archivio[index][1]);
+            let nomeFattura = "FatturaN." + nuovaFattura.numero_fattura;
+            inseriscioption(nomeFattura + " " + nuovaFattura.destinatario.nome + " " + nuovaFattura.destinatario.cognome, "fatture", nuovaFattura.numero_fattura);
+            localStorage.setItem(nomeFattura, JSON.stringify(nuovaFattura));
+            FatturaSelezionata = nomeFattura;
+            contatore_fattura++;
+        }
+
+        function showFattura() {
+            document.getElementById("mostraFattura").href = "./fattura.html?nomefattura=FatturaN." + leggiValore("fatture");
+        }
+
+        function inseriscioption(dato, idselect, value) {
+            let nuovoopt = document.createElement("option");
+            nuovoopt.text = dato;
+            nuovoopt.value = value;
+            document.getElementById(idselect).appendChild(nuovoopt);
+        }
+    </script>
+</html>

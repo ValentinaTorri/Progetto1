@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fattura</title>
+        <!--GOOGLE_FONTS-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Grandstander&display=swap" rel="stylesheet" />
+        <!--FONT_AWESOME-->
+        <script src="https://kit.fontawesome.com/bd9fa9cf57.js" crossorigin="anonymous"></script>
+        <!--CSS-->
+        <link rel="stylesheet" href="./css/index.css" />
+    </head>
+    <body>
+        <h1 class="azienda">ToRiparo s.r.l.</h1>
+        <div class="intestazione">
+            <p id="dataFattura">Data:</p>
+            <p id="nomeFattura"></p>
+        </div>
+        <div class="flex">
+            <div>
+                <h3 class="titolo">Destinatario:</h3>
+                <p id="nome"></p>
+                <p id="cognome"></p>
+                <p id="numero"></p>
+                <p id="indirizzo"></p>
+            </div>
+            <div>
+                <h3 class="titolo">Dettagli cellulare:</h3>
+                <p id="marca"></p>
+                <p id="anno"></p>
+            </div>
+        </div>
+        <div class="div_riepilogo">
+            <table class="riepilogo" cellpadding="15px" cellspacing="2px">
+                <tr>
+                    <th>Difetto</th>
+                    <th>Tipologia pagamento</th>
+                    <th>Costo</th>
+                    <th>IVA</th>
+                    <th>Totale</th>
+                </tr>
+                <tr>
+                    <td id="difetto"></td>
+                    <td id="pagamento"></td>
+                    <td id="costo"></td>
+                    <td id="IVA"></td>
+                    <td id="totale"></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+
+        var nomefattura = urlParams.get("nomefattura");
+        let contenuto = localStorage.getItem(nomefattura);
+
+        let corpoFattura = JSON.parse(contenuto);
+
+        console.log(corpoFattura);
+
+        voce("dataFattura", "Data: " + corpoFattura.data);
+        voce("nomeFattura", "Fattura n° " + corpoFattura.numero_fattura);
+        voce("nome", "Nome: " + corpoFattura.destinatario.nome);
+        voce("cognome", "Cognome: " + corpoFattura.destinatario.cognome);
+        voce("numero", "Tel: " + corpoFattura.destinatario.numero);
+        voce("indirizzo", "Indirizzo: " + corpoFattura.destinatario.indirizzo);
+        voce("marca", "Marca: " + corpoFattura.descrizione_servizio.marca);
+        voce("anno", "Anno: " + corpoFattura.descrizione_servizio.anno);
+
+        voce("difetto", corpoFattura.descrizione_servizio.difetto);
+        voce("pagamento", corpoFattura.pagamento);
+        voce("costo", "€ " + corpoFattura.costo);
+        voce("IVA", corpoFattura.iva + "%");
+        voce("totale", "€ " + corpoFattura.prezzo_finale);
+
+        function voce(ID, testo) {
+            return (document.getElementById(ID).innerText = testo);
+        }
+    </script>
+</html>

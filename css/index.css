@@ -1,0 +1,243 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Nunito", sans-serif;
+}
+
+header {
+    background-color: #003566;
+    padding: 3%;
+}
+
+h1 {
+    font-family: "Grandstander", cursive;
+    font-size: 4em;
+    text-align: center;
+    text-shadow: 1px 1px 1px #000814;
+    margin: 0;
+    color: #ffd60a;
+}
+
+h3 {
+    margin-top: 0;
+    text-decoration: underline;
+    text-align: center;
+}
+
+h4 {
+    font-family: "Grandstander", cursive;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px #000814;
+    margin: 0;
+    color: #ffd60a;
+}
+
+a {
+    background-color: #ffc300;
+    border: solid 1px #ffd60a;
+    border-radius: 10px;
+    padding: 0px 5px;
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
+/*MENU*/
+nav {
+    position: sticky;
+    top: 0;
+    background-color: #ffc300;
+}
+
+nav ul,
+nav li {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    margin-right: 15px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+}
+
+nav ul li a:link,
+nav ul li a:visited {
+    text-decoration: none;
+    color: #000814;
+    opacity: 0.6;
+}
+
+nav ul li a:hover {
+    opacity: 1;
+    font-weight: bold;
+}
+
+/*INSERISCI_DATI*/
+
+#sez1,
+#sez3 {
+    background-color: beige;
+    padding: 1%;
+}
+
+input,
+select,
+button,
+textarea {
+    border: solid 1px black;
+    border-radius: 10px;
+    font-family: "Nunito", sans-serif;
+    text-align: center;
+}
+
+input [type="text"],
+input[type="number"],
+input[type="date"] {
+    width: 20%;
+    height: 5vh;
+}
+
+button {
+    background-color: #ffc300;
+    border: solid 2px #ffd60a;
+    padding: 5px;
+}
+
+button:hover {
+    font-weight: bold;
+}
+
+.datiCliente {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 40px;
+}
+
+.datiCell {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.riga {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 27px;
+}
+
+#sez2,
+#sez4 {
+    padding: 1%;
+}
+
+#sez3 {
+    text-align: center;
+}
+
+table td {
+    font-size: 0.8em;
+    text-align: center;
+    vertical-align: -webkit-baseline-middle;
+    padding:5px 0px;
+}
+
+table {
+    margin-bottom: 40px;
+}
+
+#Accetta {
+    margin-right: 20px;
+}
+
+#Rifiuta {
+    background-color: transparent;
+    border: solid 2px #ffd60a;
+}
+
+#div_prev {
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
+}
+
+footer {
+    background-color: #003566;
+    padding: 3% 1% 2% 1%;
+    color: beige;
+    text-align: center;
+
+}
+
+.copyright {
+    margin-bottom: 0;
+    padding-top: 25px;
+}
+
+.piedipag {
+    display: flex;
+    justify-content: space-around;
+}
+
+/*FATTURA*/
+
+.flex {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 40px;
+}
+
+.titolo {
+    text-align: start;
+}
+
+.intestazione {
+    display: flex;
+    justify-content: end;
+    margin-right: 100px;
+    gap: 20px;
+}
+
+.riepilogo {
+    text-align: center;
+    margin-top: 40px;
+    border: 1px solid black;
+}
+
+.div_riepilogo {
+    display: flex;
+    justify-content: center;
+}
+
+#dataFattura,
+#nomeFattura {
+    background-color: #ffd60a;
+}
+
+.azienda {
+    padding: 20px 0px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
